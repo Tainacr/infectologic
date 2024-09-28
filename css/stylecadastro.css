@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #281b2c;
+}
+
+.container {
+    width: 80%;
+    height: 80vh;
+    display: flex;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.212);
+    flex-direction: row;
+}
+
+.form-image {
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #382f4d;
+    padding: 1rem;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.form-image img {
+    max-width: 80%; 
+    height: auto; 
+}
+
+.form {
+    width: 55%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #433a5a;
+    padding: 3rem;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.form-header {
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.login-button {
+    display: flex;
+    align-items: center;
+}
+
+.login-button button {
+    border: none;
+    background-color: #00ff88;
+    padding: 0.4rem;
+    font-weight: 800;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 12px 40px #052b1852;
+}
+
+.login-button button:hover {
+    background-color: #10df85;
+}
+
+.login-button button {
+    text-decoration: none;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #2b134b;
+}
+
+.form-header h1::after {
+    content: '';
+    display: block;
+    width: 5rem;
+    height: 0.3rem;
+    background-color: #00ff88;
+    margin: 0 auto;
+    position: absolute;
+    border-radius: 10px;
+}
+
+.input-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.input-group-left,
+.input-group-right {
+    width: 48%;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.1rem;
+}
+
+.input-box input {
+    background: #5b5177 ;
+    margin: 0.6rem 0;
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 10px 10px 20px #00000041;
+}
+
+.input-box input:hover {
+    background-color: #6e638f;
+}
+
+.input-box input:focus-visible {
+    outline: 1px solid #4b444e;
+}
+
+.input-box label,
+.gender-title h6 {
+    font-size: 0.90rem;
+    font-weight: 800;
+    color: #e8d7ff;
+}
+
+.input-box input::placeholder {
+    color: #ffffff80;
+    font-weight: 400;
+}
+
+.input-box input {
+    color: #ffffff; /* Adiciona esta linha */
+}
+
+.continue-button button {
+    width: 100%;
+    margin-top: 2.5rem;
+    border: none;
+    background-color: #00ff88;
+    padding: 0.62rem;
+    border-radius: 10px;
+    box-shadow: 0px 12px 40px 12px #350c5863;
+    cursor: pointer;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.continue-button button:hover {
+    background-color: #10df85;
+}
+
+.continue-button button a {
+    text-decoration: none;
+    font-size: 0.99rem;
+    font-weight: 800;
+    color: #2b134b;
+}
+
+.form-header h1 {
+    font-weight: 800;
+    color: #d8befa;
+}
+
+
+@media (max-width: 1200px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .form-image, .form {
+        width: 100%;
+    }
+
+    .form-image {
+        padding: 0.5rem;
+    }
+
+    .form {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-header h1::after {
+        width: 3rem;
+    }
+
+    .input-wrapper {
+        flex-direction: column;
+    }
+
+    .input-group-left,
+    .input-group-right {
+        width: 100%;
+    }
+
+    .input-group-left {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .input-box label,
+    .gender-title h6 {
+        font-size: 0.75rem;
+    }
+
+    .input-box input {
+        padding: 0.6rem;
+    }
+
+    .continue-button button {
+        padding: 0.5rem;
+    }
+    .login-button button {
+        padding: 0.5rem;
+        margin-top: 1rem; 
+    }
+}
