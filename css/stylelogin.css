@@ -105,8 +105,7 @@ body * {
 
 .btnLogin {
     width: 100%;
-    padding: 16px 0px;
-    margin: 25px;
+    padding: 16px 0;
     border: none;
     border-radius: 8px;
     outline: none;
@@ -130,8 +129,19 @@ body * {
     width: 32vw;
 }
 
-.inscrever > a {
-    color: #8d83aa;
+.inscrever,
+.btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn-container {
+    margin-top: 10px;
+}
+
+.inscrever > a{
+    color: #9c80bd;
 }
 
 @media only screen and (max-width: 950px) {

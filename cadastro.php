@@ -1,4 +1,4 @@
-<?php
+<?php 
 include_once('config.php');
 
 if (isset($_POST['submit'])) {
@@ -6,22 +6,33 @@ if (isset($_POST['submit'])) {
     $sobrenome = $_POST['lastname'];
     $email = $_POST['email'];
     $senha = $_POST['password'];
-
-    // Protegendo contra injeção de SQL
+    
     $stmt = $conexao->prepare("INSERT INTO usuarios (primeironome, sobrenome, email, senha) VALUES (?, ?, ?, ?)");
+    
+    if ($stmt === false) {
+        die("Erro na preparação: " . $conexao->error);
+    }
+
     $stmt->bind_param("ssss", $nome, $sobrenome, $email, $senha);
 
+    // Executa a declaração
     if ($stmt->execute()) {
+        // Se a inserção for bem-sucedida, redireciona com um alerta
         echo "<script>
-                alert('Cadastro realizado com sucesso!');
-                setTimeout(function() {
-                    window.location.href = 'login.html';
-                }, 2000); // Espera 2 segundos antes de redirecionar
+                alert('Login efetuado com sucesso!');
+                window.location.href = 'login.php';
               </script>";
+        exit();
     } else {
-        echo "Erro na inserção: " . $stmt->error;
+        echo "Erro ao cadastrar: " . $stmt->error;
     }
+
+    // Fecha a declaração
+    $stmt->close();
 }
+
+// Fecha a conexão
+$conexao->close();
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +58,7 @@ if (isset($_POST['submit'])) {
                         <h1>CADASTRE-SE</h1>
                     </div>
                     <div class="login-button">
-                        <button type="button" onclick="window.location.href='login.html'">Entrar</button>
+                        <button type="button" onclick="window.location.href='login.php'">Entrar</button>
                     </div>
                 </div>
 
