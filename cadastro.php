@@ -15,9 +15,9 @@ if (isset($_POST['submit'])) {
 
     $stmt->bind_param("ssss", $nome, $sobrenome, $email, $senha);
 
-    // Executa a declaração
+   
     if ($stmt->execute()) {
-        // Se a inserção for bem-sucedida, redireciona com um alerta
+        
         echo "<script>
                 alert('Login efetuado com sucesso!');
                 window.location.href = 'login.php';
@@ -27,11 +27,11 @@ if (isset($_POST['submit'])) {
         echo "Erro ao cadastrar: " . $stmt->error;
     }
 
-    // Fecha a declaração
+   
     $stmt->close();
 }
 
-// Fecha a conexão
+
 $conexao->close();
 ?>
 

@@ -1,81 +1,96 @@
 <?php
-    session_start();
-    if  ((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true)){
-        header('Location: login.php');
-
-    unset($_SESSION['email']);
-    unset($_SESSION['senha']);
+session_start();
+include('navbar.php');
+if (empty($_SESSION['email'])) {
+    header('Location: login.php');
+    exit();
 }
-    $logado = $_SESSION['email'];
 
+$email = $_SESSION['email'];
+
+include_once('config.php');
+
+$sql = "SELECT primeironome, foto_perfil FROM usuarios WHERE email = ?";
+$stmt = $conexao->prepare($sql);
+if (!$stmt) {
+    die("Erro na preparação da consulta: " . $conexao->error);
+}
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $usuario = $result->fetch_assoc();
+    $primeironome = htmlspecialchars($usuario['primeironome'] ?? 'Usuário');
+    $foto_perfil = !empty($usuario['foto_perfil']) 
+        ? htmlspecialchars($usuario['foto_perfil']) 
+        : 'img/default_profile.png';
+} else {
+    header('Location: login.php');
+    exit();
+}
+
+$stmt->close();
+
+$sql_cursos = "SELECT * FROM cursos";
+$result_cursos = $conexao->query($sql_cursos);
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InfectoLogic</title>
+    <title>Biblioteca Acadêmica</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=HK+Grotesk:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/stylehomepage.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-left">
-            <div class="dropdown">
-                <button class="dropbtn">CONTEÚDO ▼</button>
-                <div class="dropdown-content">
-                    <a href="#">Login</a>
-                    <a href="#">Cadastro</a>
-                </div>
-            </div>
-            <div class="search-bar">
-                <input type="text" placeholder="Buscar conteúdo">
-                <img src="img/lupa.png" alt="lupa" class="search-icon">
-            </div>
-        </div>
-        <div class="navbar-center">
-            <img src="img/bacteriofago.png" alt="Logo" class="site-logo">
-            <span class="site-title">INFECTOLOGIC</span>
-        </div>
-        <div class="navbar-right">
-            <img src="img/perfil.png" alt="Perfil" class="profile-icon">
-            <a href="#" class="profile-link">NOME</a>
-        </div>
-    </nav>
 
     <div class="content">
         <h1 class="main-title">CONTEÚDO</h1>
         <hr class="title-underline">
         <div class="card-container">
-            <div class="card">
-                <div class="card-header">
-                    <img src="img/livro.png" alt="Livro" class="card-icon">
-                    <span class="card-title">UNIDADE 1: INTRODUÇÃO À TEORIA MICROBIANA DA DOENÇA</span>
-                    <span class="progress">PROGRESSO: 0%</span>
-                </div>
-                <hr class="card-line">
-                <ul class="card-content">
-                    <li>HISTÓRIA DA MICROBIOLOGIA</li>
-                    <li>FUNDAMENTOS DA MICROBIOLOGIA</li>
-                    <li>LOUIS PASTEUR, ROBERT KOCH E ANTONIE VAN LEEUWENHOEK</li>
-                </ul>
-                <button class="start-button">INICIAR</button>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <img src="img/livro.png" alt="Livro" class="card-icon">
-                    <span class="card-title">UNIDADE 2: ESTUDOS DE CASO</span>
-                    <span class="progress">PROGRESSO: 0%</span>
-                </div>
-                <hr class="card-line">
-                <ul class="card-content">
-                    <li>SURTOS HISTÓRICOS</li>
-                    <li>DOENÇAS INFECCIOSAS NOTÁVEIS</li>
-                </ul>
-                <button class="start-button">INICIAR</button>
-            </div>
+            <?php if ($result_cursos->num_rows > 0): ?>
+                <?php while ($curso = $result_cursos->fetch_assoc()): ?>
+                    <div class="card">
+                        <div class="card-header">
+                            <img src="img/livro.png" alt="Livro" class="card-icon">
+                            <span class="card-title"><?php echo htmlspecialchars($curso['nome']); ?></span>
+                        </div>
+                        <hr class="card-line">
+                        <ul class="card-content">
+                            <li><?php echo htmlspecialchars($curso['descricao']); ?></li>
+                        </ul>
+                        <button class="start-button" onclick="window.location.href='guia.php?curso_id=<?php echo $curso['id']; ?>'">INICIAR</button>
+                    </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p>Nenhum curso disponível no momento.</p>
+            <?php endif; ?>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropdown = document.querySelector('.dropdown');
+            const dropbtn = document.querySelector('.dropbtn');
+
+            dropbtn.addEventListener('click', () => {
+                dropdown.classList.toggle('open');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target)) {
+                    dropdown.classList.remove('open');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
+
+<?php
+$conexao->close();
+?>

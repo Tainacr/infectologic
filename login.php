@@ -7,10 +7,11 @@
     <title>Login</title>
 </head>
 <body>
+
     <div class="mainLogin">
         <div class="loginEsquerda">
-            <h1>Acesse nosso site para aprender<br>mais sobre microbiologia</h1>
-            <img src="img/estudante.svg" class="loginEsquerdaImg" alt="estudante">
+            <h1>Acesse nosso site para aprender<br>sobre microbiologia</h1>
+            <img src="img/estudante.png" class="loginEsquerdaImg" alt="estudante">
         </div>
         <div class="loginDireita">
             <div class="card">
